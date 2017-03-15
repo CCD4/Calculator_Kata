@@ -30,6 +30,7 @@ namespace Calculator
         [TestCase(12d, Operator.Mal, 19d, 228d, true)]
         [TestCase(4d, Operator.Durch, 12d, 3d, true)]
         [TestCase(0d, Operator.Durch, 12d, double.PositiveInfinity, false)]
+        [TestCase(0d, Operator.Durch, 0d, double.NaN, false)]
         public void Rechnen(double operand, Operator @operator, double zwischenergebnisAlt, double zwischenergebnisNeu, bool result)
         {
             var calculator = new Calculator(new Calculator.State(operand, @operator, zwischenergebnisAlt));
