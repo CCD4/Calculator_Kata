@@ -1,4 +1,6 @@
-﻿namespace Calculator
+﻿using System;
+
+namespace Calculator
 {
     public class UseCases
     {
@@ -13,6 +15,12 @@
         {
             requestHandler.ZifferAnhängen(ziffer);
             return requestHandler.Operand;
+        }
+
+        public Tuple<bool, double> Rechnen(Operator @operator)
+        {
+            var success = requestHandler.OperatorAuswerten(@operator);
+            return new Tuple<bool, double>(success, requestHandler.Zwischenergebnis);
         }
     }
 }

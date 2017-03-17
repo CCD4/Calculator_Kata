@@ -10,7 +10,7 @@ namespace Calculator
         internal Calculator(State state) { this.state = state; }
 
         public double Operand => state.Operand;
-        public Operator OperatorAlt => state.OperatorAlt;
+        public Operator LastOperator => state.LastOperator;
         public double Zwischenergebnis => state.Zwischenergebnis;
 
         public void Anhängen(double ziffer)
@@ -20,7 +20,7 @@ namespace Calculator
 
         public bool Rechnen()
         {
-            switch (OperatorAlt)
+            switch (LastOperator)
             {
                 case Operator.Plus:
                     state.Zwischenergebnis += state.Operand;
@@ -32,12 +32,14 @@ namespace Calculator
                     state.Zwischenergebnis *= state.Operand;
                     break;
                 case Operator.Durch:
+                    if(state.Operand == 0)
+                        return false;
                     state.Zwischenergebnis /= state.Operand;
                     break;
                 default:
-                    throw new ArgumentOutOfRangeException();
+                    throw new ArgumentOutOfRangeException(LastOperator.ToString());
             }
-            return !double.IsInfinity(Zwischenergebnis);
+            return true;
         }
 
         internal class State
@@ -45,16 +47,27 @@ namespace Calculator
             public State() : this(0,Operator.Plus, 0)
             {                
             }
-            public State(double operand, Operator operatorAlt, double zwischenergebnis)
+
+            public State(double operand, Operator lastOperator, double zwischenergebnis)
             {
                 Operand = operand;
-                OperatorAlt = operatorAlt;
+                LastOperator = lastOperator;
                 Zwischenergebnis = zwischenergebnis;
             }
 
             public double Operand;
-            public Operator OperatorAlt;
+            public Operator LastOperator;
             public double Zwischenergebnis;
+        }
+
+        public void UpdateLastOperator(Operator @operator)
+        {
+            state.LastOperator = @operator;
+        }
+
+        public void Reset()
+        {
+            state.Operand = 0;
         }
     }
 }

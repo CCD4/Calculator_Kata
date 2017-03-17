@@ -5,6 +5,18 @@ VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Calculator", "Calculator\Calculator.csproj", "{094942DF-519A-4E71-B039-0BB12F18F46F}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Bilder", "Bilder", "{247F8049-75A8-455F-B6AF-DDE7865C69A5}"
+	ProjectSection(SolutionItems) = preProject
+		Bilder\20170310_165411.jpg = Bilder\20170310_165411.jpg
+		Bilder\20170310_165419.jpg = Bilder\20170310_165419.jpg
+		Bilder\20170310_165427.jpg = Bilder\20170310_165427.jpg
+		Bilder\20170310_165432.jpg = Bilder\20170310_165432.jpg
+		Bilder\20170310_165437.jpg = Bilder\20170310_165437.jpg
+		Bilder\20170310_165442.jpg = Bilder\20170310_165442.jpg
+		Bilder\20170310_165451.jpg = Bilder\20170310_165451.jpg
+		Bilder\20170310_165944.jpg = Bilder\20170310_165944.jpg
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
