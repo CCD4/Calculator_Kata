@@ -5,7 +5,6 @@
         Plus,
         Minus,
         Mal,
-        Durch,
-        IstGleich
+        Durch
     }
 }

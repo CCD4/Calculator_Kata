@@ -30,13 +30,20 @@
             if (success)
             {
                 calculator.Reset();
-
-                if (@operator == Operator.IstGleich)
-                    calculator.UpdateLastOperator(Operator.Plus);
-                else
-                    calculator.UpdateLastOperator(@operator);
+                calculator.UpdateLastOperator(@operator);
             }
 
+            return success;
+        }
+
+        public bool Berechnen()
+        {
+            var success = calculator.Rechnen();
+            if (success)
+            {
+                calculator.Reset();
+                calculator.UpdateLastOperator(Operator.Plus);
+            }
             return success;
         }
     }

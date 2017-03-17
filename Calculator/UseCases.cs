@@ -17,9 +17,15 @@ namespace Calculator
             return requestHandler.Operand;
         }
 
-        public Tuple<bool, double> Rechnen(Operator @operator)
+        public Tuple<bool, double> Rechnen(Operator newOperator)
         {
-            var success = requestHandler.OperatorAuswerten(@operator);
+            var success = requestHandler.OperatorAuswerten(newOperator);
+            return new Tuple<bool, double>(success, requestHandler.Zwischenergebnis);
+        }
+
+        public Tuple<bool, double> Rechnen()
+        {
+            var success = requestHandler.Berechnen();
             return new Tuple<bool, double>(success, requestHandler.Zwischenergebnis);
         }
     }
