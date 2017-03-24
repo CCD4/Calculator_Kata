@@ -1,12 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
 using System.Globalization;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using Calculator;
 
@@ -14,7 +7,8 @@ namespace CalculatorGUI
 {
     public partial class FormCalculator : Form
     {
-        private UseCases useCases;
+        private readonly UseCases useCases;
+
         public FormCalculator()
         {
             InitializeComponent();
@@ -33,6 +27,28 @@ namespace CalculatorGUI
         {
             var button = (Button)sender;
             var operatorChar = button.Text[0];
+            var @operator = OperatorKonvertieren(operatorChar);
+
+            Tuple<bool, double> result = useCases.Rechnen(@operator);
+            BerechnungAuswerten(result);
+        }
+
+        private void IstGleich_Click(object sender, EventArgs e)
+        {
+            Tuple<bool, double> result = useCases.Rechnen();
+            BerechnungAuswerten(result);
+        }
+
+        private void BerechnungAuswerten(Tuple<bool, double> result)
+        {
+            if (result.Item1)
+                textBoxZiffern.Text = result.Item2.ToString(CultureInfo.CurrentCulture);
+            else
+                MessageBox.Show(@"Fehler");
+        }
+
+        private static Operator OperatorKonvertieren(char operatorChar)
+        {
             Operator @operator;
 
             switch (operatorChar)
@@ -52,23 +68,7 @@ namespace CalculatorGUI
                 default:
                     throw new InvalidOperationException();
             }
-
-            Tuple<bool, double> result = useCases.Rechnen(@operator);
-            if (result.Item1 == true)
-                textBoxZiffern.Text = result.Item2.ToString(CultureInfo.CurrentCulture);
-            else
-                MessageBox.Show("Fehler");
-
-        }
-
-        private void IstGleich_Click(object sender, EventArgs e)
-        {
-            Tuple<bool, double> result = useCases.Rechnen();
-            if (result.Item1 == true)
-                textBoxZiffern.Text = result.Item2.ToString(CultureInfo.CurrentCulture);
-            else
-                MessageBox.Show("Fehler");
-
+            return @operator;
         }
     }
 }
