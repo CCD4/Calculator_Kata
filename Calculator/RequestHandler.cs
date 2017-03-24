@@ -25,26 +25,12 @@
 
         public bool OperatorAuswerten(Operator @operator)
         {
-            var success = calculator.Rechnen();
-
-            if (success)
-            {
-                calculator.Reset();
-                calculator.UpdateLastOperator(@operator);
-            }
-
-            return success;
+            return calculator.OperatorAuswerten(@operator);
         }
 
         public bool Berechnen()
         {
-            var success = calculator.Rechnen();
-            if (success)
-            {
-                calculator.Reset();
-                calculator.UpdateLastOperator(Operator.Plus);
-            }
-            return success;
+            return calculator.OperatorAuswerten(Operator.Plus);
         }
     }
 }

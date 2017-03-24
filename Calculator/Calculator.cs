@@ -18,6 +18,20 @@ namespace Calculator
             state.Operand = state.Operand * 10 + ziffer;
         }
 
+
+        public bool OperatorAuswerten(Operator @operator)
+        {
+            var success = Rechnen();
+
+            if (success)
+            {
+                Reset();
+                UpdateLastOperator(@operator);
+            }
+
+            return success;
+        }
+
         public bool Rechnen()
         {
             switch (LastOperator)
