@@ -18,6 +18,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Bilder", "Bilder", "{247F80
 		Bilder\States_UseCases.xlsx = Bilder\States_UseCases.xlsx
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CalculatorGUI", "CalculatorGUI\CalculatorGUI.csproj", "{3EB28A0D-50F8-4B71-B33E-C5A5BED27AED}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -28,6 +30,10 @@ Global
 		{094942DF-519A-4E71-B039-0BB12F18F46F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{094942DF-519A-4E71-B039-0BB12F18F46F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{094942DF-519A-4E71-B039-0BB12F18F46F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3EB28A0D-50F8-4B71-B33E-C5A5BED27AED}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3EB28A0D-50F8-4B71-B33E-C5A5BED27AED}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3EB28A0D-50F8-4B71-B33E-C5A5BED27AED}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3EB28A0D-50F8-4B71-B33E-C5A5BED27AED}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
