@@ -18,7 +18,7 @@ namespace CalculatorGUI
         private void Ziffer_Click(object sender, EventArgs e)
         {
             var button = (Button)sender;
-            var ziffer = button.Text[0];
+            int ziffer = int.Parse(button.Text);
             double operandErweitern = useCases.OperandErweitern(ziffer);
             textBoxZiffern.Text = operandErweitern.ToString(CultureInfo.CurrentCulture);
         }

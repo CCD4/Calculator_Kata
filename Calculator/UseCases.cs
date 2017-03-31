@@ -4,29 +4,29 @@ namespace Calculator
 {
     public class UseCases
     {
-        private readonly RequestHandler requestHandler;
+        private readonly Calculator calculator;
 
         public UseCases()
         {
-            requestHandler = new RequestHandler();
+            calculator = new Calculator();
         }
 
-        public double OperandErweitern(char ziffer)
+        public double OperandErweitern(int ziffer)
         {
-            requestHandler.ZifferAnhängen(ziffer);
-            return requestHandler.Operand;
+            calculator.Anhängen(ziffer);
+            return calculator.Operand;
         }
 
         public Tuple<bool, double> Rechnen(Operator newOperator)
         {
-            var success = requestHandler.OperatorAuswerten(newOperator);
-            return new Tuple<bool, double>(success, requestHandler.Zwischenergebnis);
+            var success = calculator.OperatorAuswerten(newOperator);
+            return new Tuple<bool, double>(success, calculator.Zwischenergebnis);
         }
 
         public Tuple<bool, double> Rechnen()
         {
-            var success = requestHandler.Berechnen();
-            return new Tuple<bool, double>(success, requestHandler.Zwischenergebnis);
+            var success = calculator.OperatorAuswerten(Operator.Plus);
+            return new Tuple<bool, double>(success, calculator.Zwischenergebnis);
         }
     }
 }
