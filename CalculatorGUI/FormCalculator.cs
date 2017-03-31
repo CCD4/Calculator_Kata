@@ -7,15 +7,11 @@ namespace CalculatorGUI
 {
     public partial class FormCalculator : Form
     {
-        private readonly Action<int, Action<double>> onZifferEingegeben;
-        private readonly Action<Operator, Action<Tuple<bool, double>>> onOperatorEingegeben;
-        private readonly Action<Action<Tuple<bool, double>>> onIstGleichEingegeben;
+        private readonly IUseCases useCases;
 
-        public FormCalculator(Action<int, Action<double>> onZifferEingegeben, Action<Operator, Action<Tuple<bool, double>>> onOperatorEingegeben, Action<Action<Tuple<bool, double>>> onIstGleichEingegeben)
+        public FormCalculator(IUseCases useCases)
         {
-            this.onZifferEingegeben = onZifferEingegeben;
-            this.onOperatorEingegeben = onOperatorEingegeben;
-            this.onIstGleichEingegeben = onIstGleichEingegeben;
+            this.useCases = useCases;
             InitializeComponent();
         }
 
@@ -23,12 +19,8 @@ namespace CalculatorGUI
         {
             var button = (Button)sender;
             int ziffer = int.Parse(button.Text);
-            onZifferEingegeben(ziffer, ErgebnisAnzeigen);
-        }
-
-        private void ErgebnisAnzeigen(double ergebnis)
-        {
-            textBoxZiffern.Text = ergebnis.ToString(CultureInfo.CurrentCulture);
+            double operandErweitern = useCases.OperandErweitern(ziffer);
+            textBoxZiffern.Text = operandErweitern.ToString(CultureInfo.CurrentCulture);
         }
 
         private void Operator_Click(object sender, EventArgs e)
@@ -36,12 +28,15 @@ namespace CalculatorGUI
             var button = (Button)sender;
             var operatorChar = button.Text[0];
             var @operator = OperatorKonvertieren(operatorChar);
-            onOperatorEingegeben(@operator, BerechnungAuswerten);
+
+            Tuple<bool, double> result = useCases.Rechnen(@operator);
+            BerechnungAuswerten(result);
         }
 
         private void IstGleich_Click(object sender, EventArgs e)
         {
-            onIstGleichEingegeben(BerechnungAuswerten);
+            Tuple<bool, double> result = useCases.Rechnen();
+            BerechnungAuswerten(result);
         }
 
         private void BerechnungAuswerten(Tuple<bool, double> result)

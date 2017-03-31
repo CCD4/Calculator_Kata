@@ -2,7 +2,14 @@
 
 namespace Calculator
 {
-    public class UseCases
+    public interface IUseCases
+    {
+        double OperandErweitern(int ziffer);
+        Tuple<bool, double> Rechnen(Operator newOperator);
+        Tuple<bool, double> Rechnen();
+    }
+
+    public class UseCases : IUseCases
     {
         private readonly Calculator calculator;
 
