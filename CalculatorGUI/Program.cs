@@ -15,7 +15,22 @@ namespace CalculatorGUI
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             var useCases = new UseCases();
-            var formCalculator = new FormCalculator(useCases);
+            Action<int, Action<double>> onZifferEingegeben = (int ziffer, Action<double> ausgabe) =>
+            {
+                var ergebnis = useCases.OperandErweitern(ziffer);
+                ausgabe(ergebnis);
+            };
+            Action<Operator, Action<Tuple<bool, double>>> onOperatorEingegeben = (@operator, onBerechnungsErgebnis) =>
+            {
+                var ergebnis = useCases.Rechnen(@operator);
+                onBerechnungsErgebnis(ergebnis);
+            };
+            Action<Action<Tuple<bool, double>>> onIstGleichEingegeben = (onBerechnungsErgebnis) =>
+            {
+                var ergebnis = useCases.Rechnen();
+                onBerechnungsErgebnis(ergebnis);
+            };
+            var formCalculator = new FormCalculator(onZifferEingegeben, onOperatorEingegeben, onIstGleichEingegeben);
             Application.Run(formCalculator);
         }
     }

@@ -34,7 +34,8 @@ namespace Calculator
         public void Rechnen(double operand, Operator @operator, double zwischenergebnisAlt, double zwischenergebnisNeu, bool result)
         {
             var calculator = new Calculator(new Calculator.State(operand, @operator, zwischenergebnisAlt));
-            var success = calculator.Rechnen();
+            bool success = true;
+            calculator.Rechnen(() => {}, () => success = false);
 
             Assert.AreEqual(result, success);
             Assert.AreEqual(zwischenergebnisNeu, calculator.Zwischenergebnis);

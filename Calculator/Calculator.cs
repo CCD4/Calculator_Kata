@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Security.Cryptography.X509Certificates;
 
 namespace Calculator
 {
@@ -25,19 +24,13 @@ namespace Calculator
             state.Operand = state.Operand * 10 + ziffer;
         }
 
-
         public bool OperatorAuswerten(Operator @operator)
         {
-            var success = Rechnen();
-            BerechnungAuswerten(success, () => ResetState(@operator));
-
+            bool success = true;
+            Rechnen(
+                () => ResetState(@operator),
+                () => success = false);
             return success;
-        }
-
-        private void BerechnungAuswerten(bool sucesss, Action onBerechnungErfolgreich)
-        {
-            if (sucesss)
-                onBerechnungErfolgreich();
         }
 
         private void ResetState(Operator @operator)
@@ -46,7 +39,7 @@ namespace Calculator
             UpdateLastOperator(@operator);
         }
 
-        public bool Rechnen()
+        internal void Rechnen(Action onSuccess, Action onFailure)
         {
             switch (LastOperator)
             {
@@ -61,13 +54,16 @@ namespace Calculator
                     break;
                 case Operator.Durch:
                     if (state.Operand == 0)
-                        return false;
+                    {
+                        onFailure();
+                        return;                        
+                    }
                     state.Zwischenergebnis /= state.Operand;
                     break;
                 default:
                     throw new ArgumentOutOfRangeException(LastOperator.ToString());
             }
-            return true;
+            onSuccess();
         }
 
         public void UpdateLastOperator(Operator @operator)
