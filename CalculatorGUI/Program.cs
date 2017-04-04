@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Runtime.Remoting.Channels;
 using System.Windows.Forms;
 using Calculator;
 
@@ -14,24 +15,27 @@ namespace CalculatorGUI
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
+
             var useCases = new UseCases();
-            Action<int, Action<double>> onZifferEingegeben = (int ziffer, Action<double> ausgabe) =>
-            {
-                var ergebnis = useCases.OperandErweitern(ziffer);
-                ausgabe(ergebnis);
-            };
-            Action<Operator, Action<Tuple<bool, double>>> onOperatorEingegeben = (@operator, onBerechnungsErgebnis) =>
-            {
-                var ergebnis = useCases.Rechnen(@operator);
-                onBerechnungsErgebnis(ergebnis);
-            };
-            Action<Action<Tuple<bool, double>>> onIstGleichEingegeben = (onBerechnungsErgebnis) =>
+            var formCalculator = new FormCalculator();
+            formCalculator.IstGleichEingegeben += (sender, args) =>
             {
                 var ergebnis = useCases.Rechnen();
-                onBerechnungsErgebnis(ergebnis);
+                formCalculator.BerechnungAuswerten(ergebnis);
             };
-            var formCalculator = new FormCalculator(onZifferEingegeben, onOperatorEingegeben, onIstGleichEingegeben);
+            formCalculator.ZifferEingegeben += (sender, args) =>
+            {
+                var ergebnis = useCases.OperandErweitern(args.Ziffer);
+                formCalculator.ErgebnisAnzeigen(ergebnis);
+            };
+            formCalculator.OperatorEingegeben += (sender, args) =>
+            {
+                var ergebnis = useCases.Rechnen(args.Operator);
+                formCalculator.BerechnungAuswerten(ergebnis);
+            };
+
             Application.Run(formCalculator);
+
         }
     }
 }

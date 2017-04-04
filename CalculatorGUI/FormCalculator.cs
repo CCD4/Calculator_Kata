@@ -7,26 +7,23 @@ namespace CalculatorGUI
 {
     public partial class FormCalculator : Form
     {
-        private readonly Action<int, Action<double>> onZifferEingegeben;
-        private readonly Action<Operator, Action<Tuple<bool, double>>> onOperatorEingegeben;
-        private readonly Action<Action<Tuple<bool, double>>> onIstGleichEingegeben;
-
-        public FormCalculator(Action<int, Action<double>> onZifferEingegeben, Action<Operator, Action<Tuple<bool, double>>> onOperatorEingegeben, Action<Action<Tuple<bool, double>>> onIstGleichEingegeben)
+        public FormCalculator()
         {
-            this.onZifferEingegeben = onZifferEingegeben;
-            this.onOperatorEingegeben = onOperatorEingegeben;
-            this.onIstGleichEingegeben = onIstGleichEingegeben;
             InitializeComponent();
         }
+
+        public event EventHandler IstGleichEingegeben;
+        public event EventHandler<ZifferEventArgs> ZifferEingegeben;
+        public event EventHandler<OperatorEventArgs> OperatorEingegeben;
 
         private void Ziffer_Click(object sender, EventArgs e)
         {
             var button = (Button)sender;
             int ziffer = int.Parse(button.Text);
-            onZifferEingegeben(ziffer, ErgebnisAnzeigen);
+            ZifferEingegeben?.Invoke(this, new ZifferEventArgs(ziffer));
         }
 
-        private void ErgebnisAnzeigen(double ergebnis)
+        public void ErgebnisAnzeigen(double ergebnis)
         {
             textBoxZiffern.Text = ergebnis.ToString(CultureInfo.CurrentCulture);
         }
@@ -36,15 +33,15 @@ namespace CalculatorGUI
             var button = (Button)sender;
             var operatorChar = button.Text[0];
             var @operator = OperatorKonvertieren(operatorChar);
-            onOperatorEingegeben(@operator, BerechnungAuswerten);
+            OperatorEingegeben?.Invoke(this, new OperatorEventArgs(@operator));
         }
 
         private void IstGleich_Click(object sender, EventArgs e)
         {
-            onIstGleichEingegeben(BerechnungAuswerten);
+            IstGleichEingegeben?.Invoke(this, new EventArgs());
         }
 
-        private void BerechnungAuswerten(Tuple<bool, double> result)
+        public void BerechnungAuswerten(Tuple<bool, double> result)
         {
             if (result.Item1)
                 textBoxZiffern.Text = result.Item2.ToString(CultureInfo.CurrentCulture);
