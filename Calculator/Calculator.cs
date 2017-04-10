@@ -4,7 +4,7 @@ namespace Calculator
 {
     public class Calculator
     {
-        private readonly State state;
+        private  State state;
 
         public Calculator() : this(new State())
         {
@@ -16,72 +16,33 @@ namespace Calculator
         }
 
         public double Operand => state.Operand;
-        private Operator LastOperator => state.LastOperator;
         public double Zwischenergebnis => state.Zwischenergebnis;
+        private Operator LastOperator => state.LastOperator;
 
         public void Anhängen(int ziffer)
         {
-            state.Operand = state.Operand * 10 + ziffer;
+      
+            state.Operand = state.Operand*10 + ziffer;
         }
 
         public bool OperatorAuswerten(Operator @operator)
         {
-            bool success = true;
-            Rechnen(
-                () => ResetState(@operator),
+            var success = true;
+            Rechenwerk.Rechnen(Zwischenergebnis, LastOperator, Operand,
+                ergebnis =>
+                {
+                    state = new State(0,@operator,ergebnis);
+                },
                 () => success = false);
             return success;
         }
 
-        private void ResetState(Operator @operator)
-        {
-            Reset();
-            UpdateLastOperator(@operator);
-        }
-
-        internal void Rechnen(Action onSuccess, Action onFailure)
-        {
-            switch (LastOperator)
-            {
-                case Operator.Plus:
-                    state.Zwischenergebnis += state.Operand;
-                    break;
-                case Operator.Minus:
-                    state.Zwischenergebnis -= state.Operand;
-                    break;
-                case Operator.Mal:
-                    state.Zwischenergebnis *= state.Operand;
-                    break;
-                case Operator.Durch:
-                    if (state.Operand == 0)
-                    {
-                        onFailure();
-                        return;                        
-                    }
-                    state.Zwischenergebnis /= state.Operand;
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException(LastOperator.ToString());
-            }
-            onSuccess();
-        }
-
-        public void UpdateLastOperator(Operator @operator)
-        {
-            state.LastOperator = @operator;
-        }
-
-        public void Reset()
-        {
-            state.Operand = 0;
-        }
-
         internal class State
         {
-            public Operator LastOperator;
+            public double Operand { get; set; }
 
-            public double Operand;
-            public double Zwischenergebnis;
+            public Operator LastOperator { get; }
+            public double Zwischenergebnis { get; }
 
             public State() : this(0, Operator.Plus, 0)
             {

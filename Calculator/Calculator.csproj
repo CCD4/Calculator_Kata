@@ -48,6 +48,8 @@
     <Compile Include="CalculatorTests.cs" />
     <Compile Include="Operator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Rechenwerk.cs" />
+    <Compile Include="RechwerkTest.cs" />
     <Compile Include="UseCases.cs" />
     <Compile Include="UseCaseTests.cs" />
   </ItemGroup>

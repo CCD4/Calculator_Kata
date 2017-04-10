@@ -25,21 +25,5 @@ namespace Calculator
             Assert.AreEqual(0.0, calculator.Operand);
         }
 
-        [TestCase(12d, Operator.Minus, 19d, 7d, true)]
-        [TestCase(12d, Operator.Plus, 19d, 31d, true)]
-        [TestCase(12d, Operator.Mal, 19d, 228d, true)]
-        [TestCase(4d, Operator.Durch, 12d, 3d, true)]
-        [TestCase(0d, Operator.Durch, 12d, 12d, false)]
-        [TestCase(0d, Operator.Durch, 0d, 0, false)]
-        public void Rechnen(double operand, Operator @operator, double zwischenergebnisAlt, double zwischenergebnisNeu, bool result)
-        {
-            var calculator = new Calculator(new Calculator.State(operand, @operator, zwischenergebnisAlt));
-            bool success = true;
-            calculator.Rechnen(() => {}, () => success = false);
-
-            Assert.AreEqual(result, success);
-            Assert.AreEqual(zwischenergebnisNeu, calculator.Zwischenergebnis);
-            Assert.AreEqual(operand, calculator.Operand);
-        }
     }
 }

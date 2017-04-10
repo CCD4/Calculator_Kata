@@ -18,15 +18,17 @@ namespace CalculatorGUI
 
             var useCases = new UseCases();
             var formCalculator = new FormCalculator();
-            formCalculator.IstGleichEingegeben += (sender, args) =>
-            {
-                var ergebnis = useCases.Rechnen();
-                formCalculator.BerechnungAuswerten(ergebnis);
-            };
+           
             formCalculator.ZifferEingegeben += (sender, args) =>
             {
                 var ergebnis = useCases.OperandErweitern(args.Ziffer);
                 formCalculator.ErgebnisAnzeigen(ergebnis);
+            };
+
+            formCalculator.IstGleichEingegeben += (sender, args) =>
+            {
+                var ergebnis = useCases.Rechnen();
+                formCalculator.BerechnungAuswerten(ergebnis);
             };
             formCalculator.OperatorEingegeben += (sender, args) =>
             {

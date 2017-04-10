@@ -23,11 +23,6 @@ namespace CalculatorGUI
             ZifferEingegeben?.Invoke(this, new ZifferEventArgs(ziffer));
         }
 
-        public void ErgebnisAnzeigen(double ergebnis)
-        {
-            textBoxZiffern.Text = ergebnis.ToString(CultureInfo.CurrentCulture);
-        }
-
         private void Operator_Click(object sender, EventArgs e)
         {
             var button = (Button)sender;
@@ -39,6 +34,11 @@ namespace CalculatorGUI
         private void IstGleich_Click(object sender, EventArgs e)
         {
             IstGleichEingegeben?.Invoke(this, new EventArgs());
+        }
+
+        public void ErgebnisAnzeigen(double ergebnis)
+        {
+            textBoxZiffern.Text = ergebnis.ToString(CultureInfo.CurrentCulture);
         }
 
         public void BerechnungAuswerten(Tuple<bool, double> result)
